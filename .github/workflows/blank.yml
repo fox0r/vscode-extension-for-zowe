@@ -1,20 +1,15 @@
-name: Auto Assign to Project(s)
+name: Move assigned pull requests into To do
 
 on:
-  issues:
-    types: [opened, labeled]
   pull_request:
-    types: [opened, labeled]
-env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    types: [opened]
 
 jobs:
-  assign_one_project:
+  automate-project-columns:
     runs-on: ubuntu-latest
-    name: Assign to One Project
     steps:
-    - name: Assign NEW issues and NEW pull requests to project 2
-      uses: srggrs/assign-one-project-github-action@1.2.0
-      if: github.event.action == 'opened'
-      with:
-        project: 'https://github.com/fox0r/vscode-extension-for-zowe/projects/1?'
+      - uses: alex-page/github-project-automation-plus@v0.2.4
+        with:
+          project: test
+          column: In progress
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
